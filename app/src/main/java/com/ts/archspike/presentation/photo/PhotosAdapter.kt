@@ -38,7 +38,7 @@ class ProfessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                     .centerCrop()
 
             Glide.with(itemView.context)
-                    .load("http://random.cat/view/${photo.id}")
+                    .load("https://cataas.com/cat")
                     .apply(requestOptions)
                     .into(it)
         }
