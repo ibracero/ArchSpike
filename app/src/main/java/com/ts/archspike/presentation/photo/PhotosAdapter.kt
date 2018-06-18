@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.ts.archspike.R
 import com.ts.archspike.domain.model.Photo
 
@@ -17,7 +19,7 @@ class ProfessionAdapter : ListAdapter<Photo, ProfessionViewHolder>(ProfessionDif
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ProfessionViewHolder(
                     LayoutInflater.from(parent.context)
-                            .inflate(R.layout.item_profession, parent, false)
+                            .inflate(R.layout.item_photo, parent, false)
             )
 
     override fun onBindViewHolder(holder: ProfessionViewHolder, position: Int) {
@@ -27,9 +29,18 @@ class ProfessionAdapter : ListAdapter<Photo, ProfessionViewHolder>(ProfessionDif
 
 class ProfessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(photo: Photo) {
-        itemView?.findViewById<TextView>(R.id.profession_name)?.text = photo.id.toString()
+        itemView?.findViewById<TextView>(R.id.profession_name)?.text = "Cat ${photo.id}"
         itemView?.findViewById<ImageView>(R.id.profession_image)?.let {
-            Glide.with(itemView.context).load(photo.thumbnailUrl).into(it)
+
+            val requestOptions = RequestOptions
+                    .skipMemoryCacheOf(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .centerCrop()
+
+            Glide.with(itemView.context)
+                    .load("http://random.cat/view/${photo.id}")
+                    .apply(requestOptions)
+                    .into(it)
         }
     }
 }

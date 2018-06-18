@@ -1,7 +1,6 @@
 package com.ts.archspike.presentation.photo
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -12,8 +11,9 @@ import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.ts.archspike.R
 import com.ts.archspike.data.PhotoRepository
-import com.ts.archspike.presentation.photo.viewmodel.PhotoViewModel
-import kotlinx.android.synthetic.main.activity_professions.*
+import com.ts.archspike.presentation.photo.viewmodel.PhotosViewModel
+import com.ts.archspike.presentation.withViewModel
+import kotlinx.android.synthetic.main.activity_photos.*
 
 class PhotosActivity : AppCompatActivity(), AppCompatActivityInjector {
 
@@ -27,20 +27,20 @@ class PhotosActivity : AppCompatActivity(), AppCompatActivityInjector {
         super.onCreate(savedInstanceState)
         initializeInjector()
 
-        setContentView(R.layout.activity_professions)
+        setContentView(R.layout.activity_photos)
 
         profession_recycler_view.layoutManager = GridLayoutManager(this, 2)
         profession_recycler_view.adapter = adapter
 
-        val professionViewModel = ViewModelProviders.of(this)[PhotoViewModel::class.java]
+        val photosViewModel = withViewModel({ PhotosViewModel(repository) }) {
+            professions.observe(this@PhotosActivity, Observer {
+                adapter.submitList(it?.data)
+                updateState(it?.dataState)
+            })
+        }
 
-        professionViewModel.repository = repository
-
-        professionViewModel.get()
-        professionViewModel.professions.observe(this, Observer {
-            adapter.submitList(it?.data)
-            updateState(it?.dataState)
-        })
+        random_button.setOnClickListener { photosViewModel.filterRandomly() }
+        reload_button.setOnClickListener { photosViewModel.getProfessions() }
     }
 
     private fun updateState(dataState: DataState?) {
