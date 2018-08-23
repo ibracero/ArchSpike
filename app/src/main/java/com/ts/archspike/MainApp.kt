@@ -1,14 +1,14 @@
 package com.ts.archspike
 
 import android.app.Application
-import com.github.salomonbrys.kodein.Kodein
-import com.github.salomonbrys.kodein.KodeinAware
-import com.ts.archspike.data.di.dataModule
+import com.ts.archspike.di.appModule
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
 
 class MainApp : Application(), KodeinAware {
 
     override val kodein = Kodein {
-        import(dataModule)
+        import(appModule)
     }
 
 }

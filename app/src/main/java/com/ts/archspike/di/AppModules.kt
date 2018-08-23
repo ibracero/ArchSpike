@@ -1,21 +1,30 @@
-package com.ts.archspike.data.di
+package com.ts.archspike.di
 
-import com.github.salomonbrys.kodein.*
 import com.ts.archspike.data.PhotoRepository
 import com.ts.archspike.data.network.PhotoApi
 import okhttp3.OkHttpClient
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-val dataModule = Kodein.Module {
+private const val BASE_URL = "https://jsonplaceholder.typicode.com"
+private const val CONNECT_TIMEOUT = 10L
+private const val READ_TIMEOUT = 10L
+private const val WRITE_TIMEOUT = 10L
 
-    val BASE_URL = "https://jsonplaceholder.typicode.com"
-    val CONNECT_TIMEOUT = 10L
-    val READ_TIMEOUT = 10L
-    val WRITE_TIMEOUT = 10L
+val appModule = Kodein.Module("app") {
 
+    import(okHttpModule)
+    import(retrofitModule)
+    import(photosDataModule)
+}
+
+val okHttpModule = Kodein.Module("http") {
     bind<OkHttpClient>() with singleton {
         val clientBuilder = OkHttpClient.Builder()
         clientBuilder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
@@ -23,25 +32,27 @@ val dataModule = Kodein.Module {
         clientBuilder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
         clientBuilder.build()
     }
+}
 
+val retrofitModule = Kodein.Module("retrofitModule") {
     bind<Retrofit>() with singleton {
-        val okHttpClient: OkHttpClient = kodein.instance()
-
+        val okHttpClient: OkHttpClient = instance()
         Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
     }
+}
 
+val photosDataModule = Kodein.Module("photosData") {
     bind<PhotoApi>() with provider {
-        val retrofit: Retrofit = kodein.instance()
+        val retrofit: Retrofit = instance()
         retrofit.create(PhotoApi::class.java)
     }
 
     bind<PhotoRepository>() with singleton {
-        val photoApi: PhotoApi = kodein.instance()
+        val photoApi: PhotoApi = instance()
         PhotoRepository(photoApi)
     }
 }
