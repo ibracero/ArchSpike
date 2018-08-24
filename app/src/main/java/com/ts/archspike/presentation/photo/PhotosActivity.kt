@@ -7,18 +7,23 @@ import android.view.View
 import android.widget.Toast
 import com.ts.archspike.BaseActivity
 import com.ts.archspike.R
-import com.ts.archspike.data.PhotoRepository
+import com.ts.archspike.common.di.photoListActivityModule
 import com.ts.archspike.presentation.photo.viewmodel.PhotosViewModel
 import com.ts.archspike.presentation.withViewModel
 import kotlinx.android.synthetic.main.activity_photos.*
+import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.instance
 
 class PhotosActivity : BaseActivity(), KodeinAware {
 
-    private val repository: PhotoRepository by instance()
+    private val photosViewModel by instance<PhotosViewModel>()
 
     private val adapter = ProfessionAdapter()
+
+    override fun activityModule() = Kodein.Module("am") {
+        import(photoListActivityModule())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +33,7 @@ class PhotosActivity : BaseActivity(), KodeinAware {
         profession_recycler_view.layoutManager = GridLayoutManager(this, 2)
         profession_recycler_view.adapter = adapter
 
-        val photosViewModel = withViewModel({ PhotosViewModel(repository) }) {
+        val photosViewModel = withViewModel({ photosViewModel }) {
             professions.observe(this@PhotosActivity, Observer {
                 adapter.submitList(it?.data)
                 updateState(it?.dataState)
