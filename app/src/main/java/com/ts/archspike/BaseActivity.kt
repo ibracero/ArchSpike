@@ -1,7 +1,7 @@
 package com.ts.archspike
 
 import android.support.v7.app.AppCompatActivity
-import com.ts.archspike.di.baseActivityModule
+import com.ts.archspike.common.di.baseActivityModule
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein

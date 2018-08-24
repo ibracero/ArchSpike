@@ -1,4 +1,4 @@
-package com.ts.archspike.di
+package com.ts.archspike.common.di
 
 import com.ts.archspike.data.PhotoRepository
 import com.ts.archspike.data.network.PhotoApi

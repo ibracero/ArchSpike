@@ -1,7 +1,7 @@
 package com.ts.archspike
 
 import android.app.Application
-import com.ts.archspike.di.appModule
+import com.ts.archspike.common.di.appModule
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 

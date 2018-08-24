@@ -6,6 +6,10 @@ import com.ts.archspike.data.PhotoRepository
 import com.ts.archspike.domain.model.Photo
 import com.ts.archspike.presentation.photo.Data
 import com.ts.archspike.presentation.photo.DataState
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 class PhotosViewModel(private val repository: PhotoRepository) : ViewModel() {
 
@@ -16,7 +20,12 @@ class PhotosViewModel(private val repository: PhotoRepository) : ViewModel() {
     }
 
     fun getProfessions() {
-        repository.getProfessions()
+        val job = async(CommonPool) {
+            repository.getProfessions()
+        }
+        launch(UI) {
+            professions.postValue(Data(dataState = DataState.SUCCESS, data = job.await()))
+        }
     }
 
     override fun onCleared() {
