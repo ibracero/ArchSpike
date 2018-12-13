@@ -5,5 +5,5 @@ import com.ts.archspike.domain.model.Photo
 
 class PhotoRepository constructor(private val photoApi: PhotoApi) {
 
-    fun getProfessions(): List<Photo> = photoApi.getPhotos().execute().body() ?: emptyList()
+    suspend fun getPhotos(): List<Photo> = photoApi.getPhotos().await()
 }

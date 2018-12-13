@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.ts.archspike"
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -17,12 +17,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
     }
 }
 
@@ -39,11 +33,13 @@ dependencies {
     implementation "org.kodein.di:kodein-di-framework-android-core:$kodein_version"
 
     implementation "android.arch.lifecycle:extensions:$aac_version"
-    annotationProcessor "android.arch.lifecycle:compiler:$aac_version"
+    implementation "android.arch.lifecycle:viewmodel:$aac_version"
     testImplementation "android.arch.core:core-testing:$aac_version"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_coroutines_adapter"
+
 
     implementation "com.squareup.moshi:moshi:$moshi_version"
 
@@ -51,6 +47,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'exifinterface'
     }
 
+    //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 

@@ -19,7 +19,7 @@ class PhotosActivity : BaseActivity(), KodeinAware {
 
     private val photosViewModel by instance<PhotosViewModel>()
 
-    private val adapter = ProfessionAdapter()
+    private val adapter = PhotoAdapter()
 
     override fun activityModule() = Kodein.Module("am") {
         import(photoListActivityModule())
@@ -34,14 +34,14 @@ class PhotosActivity : BaseActivity(), KodeinAware {
         profession_recycler_view.adapter = adapter
 
         val photosViewModel = withViewModel({ photosViewModel }) {
-            professions.observe(this@PhotosActivity, Observer {
+            photoLiveData.observe(this@PhotosActivity, Observer {
                 adapter.submitList(it?.data)
                 updateState(it?.dataState)
             })
         }
 
         random_button.setOnClickListener { photosViewModel.filterRandomly() }
-        reload_button.setOnClickListener { photosViewModel.getProfessions() }
+        reload_button.setOnClickListener { photosViewModel.getPhotos() }
     }
 
     private fun updateState(dataState: DataState?) {

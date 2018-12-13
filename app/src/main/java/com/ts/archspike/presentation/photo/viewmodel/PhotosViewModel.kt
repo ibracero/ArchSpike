@@ -6,25 +6,25 @@ import com.ts.archspike.data.PhotoRepository
 import com.ts.archspike.domain.model.Photo
 import com.ts.archspike.presentation.photo.Data
 import com.ts.archspike.presentation.photo.DataState
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
 
-class PhotosViewModel(private val repository: PhotoRepository) : ViewModel() {
+class PhotosViewModel(private val repository: PhotoRepository) : ViewModel(), CoroutineScope {
 
-    val professions = MutableLiveData<Data<List<Photo>>>()
+    override val coroutineContext = Job() + Dispatchers.IO
+
+    val photoLiveData = MutableLiveData<Data<List<Photo>>>()
 
     init {
-        getProfessions()
+        getPhotos()
     }
 
-    fun getProfessions() {
-        val job = async(CommonPool) {
-            repository.getProfessions()
-        }
-        launch(UI) {
-            professions.postValue(Data(dataState = DataState.SUCCESS, data = job.await()))
+    fun getPhotos() {
+        launch {
+            val photos = async { repository.getPhotos() }.await()
+
+            withContext(Dispatchers.Main) {
+                photoLiveData.postValue(Data(dataState = DataState.SUCCESS, data = photos))
+            }
         }
     }
 
@@ -32,8 +32,8 @@ class PhotosViewModel(private val repository: PhotoRepository) : ViewModel() {
     }
 
     fun filterRandomly() {
-        val currentData = professions.value?.data
-        professions.postValue(
+        val currentData = photoLiveData.value?.data
+        photoLiveData.postValue(
                 Data(dataState = DataState.SUCCESS,
                         data = currentData?.filterIndexed { i, _ -> i % 2 == 0 })
         )

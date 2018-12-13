@@ -12,23 +12,23 @@ import com.squareup.picasso.Picasso
 import com.ts.archspike.R
 import com.ts.archspike.domain.model.Photo
 
-class ProfessionAdapter : ListAdapter<Photo, ProfessionViewHolder>(ProfessionDiffCallback()) {
+class PhotoAdapter : ListAdapter<Photo, PhotoViewHolder>(PhotoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ProfessionViewHolder(
+            PhotoViewHolder(
                     LayoutInflater.from(parent.context)
                             .inflate(R.layout.item_photo, parent, false)
             )
 
-    override fun onBindViewHolder(holder: ProfessionViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 }
 
-class ProfessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class PhotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(photo: Photo) {
-        itemView?.findViewById<TextView>(R.id.profession_name)?.text = "Cat ${photo.id}"
-        itemView?.findViewById<ImageView>(R.id.profession_image)?.let {
+        itemView.findViewById<TextView>(R.id.profession_name)?.text = "Cat ${photo.id}"
+        itemView.findViewById<ImageView>(R.id.profession_image)?.let {
 
             Picasso.get().load("https://cataas.com/cat")
                     .into(it)
@@ -36,11 +36,11 @@ class ProfessionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 }
 
-class ProfessionDiffCallback : DiffUtil.ItemCallback<Photo>() {
+class PhotoDiffCallback : DiffUtil.ItemCallback<Photo>() {
 
-    override fun areItemsTheSame(oldItem: Photo?, newItem: Photo?) =
-            oldItem?.id == newItem?.id
+    override fun areItemsTheSame(oldItem: Photo, newItem: Photo) =
+            oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: Photo?, newItem: Photo?) =
+    override fun areContentsTheSame(oldItem: Photo, newItem: Photo) =
             oldItem == newItem
 }
