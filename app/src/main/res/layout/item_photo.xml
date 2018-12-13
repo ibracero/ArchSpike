@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="8dp"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="4dp">
 
@@ -12,7 +12,7 @@
         android:id="@+id/profession_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="120dp"
+        android:minHeight="40dp"
         android:scaleType="centerCrop"
         tools:src="@color/colorAccent" />
 
@@ -20,7 +20,9 @@
         android:id="@+id/profession_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="3"
         tools:text="Profession name" />
 
 </LinearLayout>

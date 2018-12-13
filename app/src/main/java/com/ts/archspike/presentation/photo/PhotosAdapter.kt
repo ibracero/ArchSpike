@@ -27,10 +27,9 @@ class PhotoAdapter : ListAdapter<Photo, PhotoViewHolder>(PhotoDiffCallback()) {
 
 class PhotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(photo: Photo) {
-        itemView.findViewById<TextView>(R.id.profession_name)?.text = "Cat ${photo.id}"
+        itemView.findViewById<TextView>(R.id.profession_name)?.text = photo.title
         itemView.findViewById<ImageView>(R.id.profession_image)?.let {
-
-            Picasso.get().load("https://cataas.com/cat")
+            Picasso.get().load(photo.thumbnailUrl)
                     .into(it)
         }
     }

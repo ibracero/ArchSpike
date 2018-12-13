@@ -7,6 +7,7 @@ import com.ts.archspike.data.PhotoRepository
 import com.ts.archspike.data.network.NetworkException
 import com.ts.archspike.domain.model.Photo
 import kotlinx.coroutines.*
+import kotlin.random.Random
 
 class PhotosViewModel(private val repository: PhotoRepository) : ViewModel(), CoroutineScope {
 
@@ -29,7 +30,13 @@ class PhotosViewModel(private val repository: PhotoRepository) : ViewModel(), Co
     }
 
     fun filterRandomly() {
-        val filteredData = photoLiveData.value?.map { it.filterIndexed { i, _ -> i % 2 == 0 } }
-        photoLiveData.postValue(filteredData)
+        launch {
+            val filteredData = photoLiveData.value
+                    ?.map { it.filter { photo -> photo.title.length % Random.nextInt(1, 10) == 0 } }
+
+            withContext(Dispatchers.Main) {
+                photoLiveData.postValue(filteredData)
+            }
+        }
     }
 }

@@ -34,12 +34,12 @@ class PhotosActivity : BaseActivity(), KodeinAware {
 
         photo_recycler_view.adapter = adapter
 
+        showLoading()
         val photosViewModel = withViewModel({ photosViewModel }) {
             photoLiveData.observe(this@PhotosActivity, Observer { updateState(it) })
         }
 
-        random_button.setOnClickListener {
-            showLoading()
+        kill_random_button.setOnClickListener {
             photosViewModel.filterRandomly()
         }
         reload_button.setOnClickListener {
@@ -51,7 +51,7 @@ class PhotosActivity : BaseActivity(), KodeinAware {
     private fun updateState(data: Either<NetworkException, List<Photo>>?) {
         loading_view.gone()
         data?.fold(
-                { toast("Error retrieving cats... Try again later") },
+                { toast("Error retrieving data... Try again later") },
                 { adapter.submitList(it) }
         )
     }
