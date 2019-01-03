@@ -16,6 +16,7 @@ buildscript {
         picasso_version = '2.71828'
         retrofit_coroutines_adapter = '0.9.2'
         arrow = "0.7.3"
+        mockito_kotlin = '1.6.0'
     }
 
     repositories {

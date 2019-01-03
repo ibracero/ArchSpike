@@ -1,7 +1,7 @@
 package com.ts.archspike.common.di
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.ts.archspike.data.PhotoRepository
+import com.ts.archspike.data.PhotoRepositoryImpl
 import com.ts.archspike.data.network.PhotoApi
 import okhttp3.OkHttpClient
 import org.kodein.di.Kodein
@@ -53,7 +53,7 @@ val photosDataModule = Kodein.Module("photosData") {
         retrofit.create(PhotoApi::class.java)
     }
 
-    bind<PhotoRepository>() with singleton {
-        PhotoRepository(instance() as PhotoApi)
+    bind<PhotoRepositoryImpl>() with singleton {
+        PhotoRepositoryImpl(instance() as PhotoApi)
     }
 }
