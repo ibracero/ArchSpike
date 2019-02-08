@@ -2,8 +2,8 @@ package com.ts.archspike.data
 
 import arrow.core.Either
 import arrow.core.Eval
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import com.ts.archspike.data.network.NetworkException
 import com.ts.archspike.domain.PhotoRepository
 import com.ts.archspike.domain.model.Photo

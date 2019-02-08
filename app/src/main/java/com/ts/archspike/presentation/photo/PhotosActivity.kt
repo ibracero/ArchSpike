@@ -37,6 +37,7 @@ class PhotosActivity : BaseActivity(), KodeinAware {
         showLoading()
         val photosViewModel = withViewModel({ photosViewModel }) {
             photoLiveData.observe(this@PhotosActivity, Observer { updateState(it) })
+            getPhotos()
         }
 
         kill_random_button.setOnClickListener {

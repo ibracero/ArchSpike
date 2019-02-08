@@ -52,9 +52,10 @@ dependencies {
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
     testImplementation 'junit:junit:4.12'
-    testImplementation("com.nhaarman:mockito-kotlin:$mockito_kotlin") {
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin") {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
     }
