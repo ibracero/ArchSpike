@@ -3,7 +3,7 @@ package com.ts.archspike.presentation.photo.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import arrow.core.Either
-import com.ts.archspike.common.CoroutineDispatcherProvider
+import com.ts.archspike.common.coroutines.CoroutineDispatcherProvider
 import com.ts.archspike.data.network.NetworkException
 import com.ts.archspike.domain.PhotoRepository
 import com.ts.archspike.domain.model.Photo

@@ -1,4 +1,4 @@
-package com.ts.archspike.common
+package com.ts.archspike.common.coroutines
 
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext

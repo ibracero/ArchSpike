@@ -1,6 +1,6 @@
 package com.ts.archspike.common.di
 
-import com.ts.archspike.common.CoroutineDispatcherProvider
+import com.ts.archspike.common.coroutines.CoroutineDispatcherProvider
 import com.ts.archspike.presentation.photo.viewmodel.PhotosViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
