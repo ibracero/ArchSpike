@@ -2,31 +2,23 @@ package com.ts.archspike.presentation.photo
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import arrow.core.Either
-import com.ts.archspike.BaseActivity
 import com.ts.archspike.R
-import com.ts.archspike.common.di.photoListActivityModule
 import com.ts.archspike.data.network.NetworkException
 import com.ts.archspike.domain.model.Photo
 import com.ts.archspike.presentation.gone
 import com.ts.archspike.presentation.photo.viewmodel.PhotosViewModel
 import com.ts.archspike.presentation.toast
 import com.ts.archspike.presentation.visible
-import com.ts.archspike.presentation.withViewModel
 import kotlinx.android.synthetic.main.activity_photos.*
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.generic.instance
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class PhotosActivity : BaseActivity(), KodeinAware {
+class PhotosActivity : AppCompatActivity() {
 
-    private val photosViewModel by instance<PhotosViewModel>()
+    private val photosViewModel: PhotosViewModel by viewModel()
 
     private val adapter = PhotoAdapter()
-
-    override fun activityModule() = Kodein.Module("am") {
-        import(photoListActivityModule())
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +27,7 @@ class PhotosActivity : BaseActivity(), KodeinAware {
         photo_recycler_view.adapter = adapter
 
         showLoading()
-        val photosViewModel = withViewModel({ photosViewModel }) {
+        photosViewModel.run {
             photoLiveData.observe(this@PhotosActivity, Observer { updateState(it) })
             getPhotos()
         }

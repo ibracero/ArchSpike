@@ -27,10 +27,10 @@ dependencies {
     implementation Dependencies.support
     implementation Dependencies.recycler_view
     implementation Dependencies.constraint_layout
-    implementation Dependencies.kodein_jvm
-    implementation Dependencies.kodein_android
     implementation Dependencies.aac_extensions
     implementation Dependencies.aac_viewmodel
+    implementation Dependencies.koin
+    implementation Dependencies.koin_viewmodel
     implementation Dependencies.coroutines_core
     implementation Dependencies.coroutines_android
     implementation Dependencies.retrofit

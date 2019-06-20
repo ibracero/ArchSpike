@@ -13,7 +13,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url "https://dl.bintray.com/kodein-framework/Kodein-DI" }
         google()
         jcenter()
     }
