@@ -12,39 +12,39 @@ import kotlin.random.Random
 
 class PhotosViewModel(private val repository: PhotoRepository,
                       private val dispatcher: CoroutineDispatcherProvider)
-    : ViewModel(), CoroutineScope {
+    : ViewModel() {
 
-    private val photosJob = Job()
-
-    override val coroutineContext = photosJob + dispatcher.io
+    private val scope = object : CoroutineScope {
+        private val photosJob = Job()
+        override val coroutineContext = photosJob + dispatcher.io
+    }
 
     val photoLiveData = MutableLiveData<Either<NetworkException, List<Photo>>>()
 
     fun getPhotos() {
-        launch {
-            val photos = withContext(dispatcher.default) {
-                repository.getPhotos()
-            }
+        scope.launch {
+            val photos = repository.getPhotos()
 
-            withContext(dispatcher.ui) {
+            withContext(dispatcher.main) {
                 photoLiveData.postValue(photos)
             }
         }
     }
 
     fun filterRandomly() {
-        launch {
+        scope.launch {
             val filteredData = photoLiveData.value
                     ?.map { it.filter { photo -> photo.title.length % Random.nextInt(1, 10) == 0 } }
 
-            withContext(dispatcher.ui) {
+            withContext(dispatcher.main) {
                 photoLiveData.postValue(filteredData)
             }
         }
     }
 
+    @ExperimentalCoroutinesApi
     override fun onCleared() {
         super.onCleared()
-        photosJob.cancel()
+        scope.cancel()
     }
 }
