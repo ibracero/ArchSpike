@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion Versions.compile_sdk
     defaultConfig {
         applicationId "com.ts.archspike"
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion Versions.min_sdk
+        targetSdkVersion Versions.target_sdk
+        versionCode Versions.version_code
+        versionName Versions.version_name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -23,39 +23,29 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:recyclerview-v7:$support_version"
-    implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
-
-    implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
-    implementation "org.kodein.di:kodein-di-framework-android-core:$kodein_version"
-
-    implementation "android.arch.lifecycle:extensions:$aac_version"
-    implementation "android.arch.lifecycle:viewmodel:$aac_version"
-    testImplementation "android.arch.core:core-testing:$aac_version"
-
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_coroutines_adapter"
-
-    //Arrow
-    api "io.arrow-kt:arrow-core:$arrow"
-
-    implementation "com.squareup.moshi:moshi:$moshi_version"
-
-    implementation("com.squareup.picasso:picasso:$picasso_version") {
+    implementation Dependencies.kotlin
+    implementation Dependencies.support
+    implementation Dependencies.recycler_view
+    implementation Dependencies.constraint_layout
+    implementation Dependencies.kodein_jvm
+    implementation Dependencies.kodein_android
+    implementation Dependencies.aac_extensions
+    implementation Dependencies.aac_viewmodel
+    implementation Dependencies.coroutines_core
+    implementation Dependencies.coroutines_android
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofit_moshi_converter
+    implementation Dependencies.retrofit_coroutines_adapter
+    api Dependencies.arrow
+    implementation Dependencies.moshi
+    implementation(Dependencies.picasso) {
         exclude group: 'com.android.support', module: 'exifinterface'
     }
 
-    //coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
-
-    testImplementation 'junit:junit:4.12'
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin") {
+    testImplementation Dependencies.aac_core_testing
+    testImplementation Dependencies.coroutines_test
+    testImplementation Dependencies.junit
+    testImplementation(Dependencies.mockito_kotlin) {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-reflect'
     }
